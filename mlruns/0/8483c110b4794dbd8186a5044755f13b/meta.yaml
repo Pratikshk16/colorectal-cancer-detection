@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/pratiksuchak/Library/Mobile%20Documents/com~apple~CloudDocs/Documents/Colorectal%20Cancer%20Detection%20Project/mlruns/0/8483c110b4794dbd8186a5044755f13b/artifacts
+end_time: 1769177781306
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 8483c110b4794dbd8186a5044755f13b
+run_name: serious-bear-846
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1769177778285
+status: 3
+tags: []
+user_id: pratiksuchak
