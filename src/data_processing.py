@@ -48,32 +48,32 @@ class DataProcessing:
 
     def preprocess_data(self):
         try:
-
+            # Drop ID column
             self.df = self.df.drop(columns=["Patient_ID"], errors="ignore")
 
-
+            # Target variable
             self.y = self.df["Survival_Prediction"]
 
+            # Selected features (NO data leakage)
             important_cols = [
                 "Age",
                 "Tumor_Size_mm",
                 "Cancer_Stage",
                 "Treatment_Type",
-                "Survival_5_years",
                 "Early_Detection",
                 "Screening_History",
-                "Mortality_Rate_per_100K",
-                "Healthcare_Costs",
             ]
 
             self.X = self.df[important_cols]
 
+            # Identify categorical and numerical columns
             categorical_cols = self.X.select_dtypes(include="object").columns.tolist()
             numerical_cols = self.X.select_dtypes(exclude="object").columns.tolist()
 
             self.logger.info(f"Categorical columns: {categorical_cols}")
             self.logger.info(f"Numerical columns: {numerical_cols}")
 
+            # Preprocessing pipeline
             self.preprocessor = ColumnTransformer(
                 transformers=[
                     (
@@ -90,6 +90,9 @@ class DataProcessing:
         except Exception as e:
             self.logger.error(f"Error during preprocessing: {e}")
             raise CustomException("Failed to preprocess data", e)
+
+
+
 
 
     def split_and_transform(self):

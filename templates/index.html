@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Colorectal Cancer Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>Colorectal Cancer Survival Prediction</h1>
+    <p>Enter patient details</p>
+
+    <form method="POST" action="/predict">
+
+        <div class="form-group">
+            <label>Age</label>
+            <input type="number" name="Age" min="1" max="120" required>
+            <small class="hint">Patient's age in years.</small>
+        </div>
+
+        <div class="form-group">
+            <label>Tumor Size (mm)</label>
+            <input type="number" name="Tumor_Size_mm" step="0.01" required>
+            <small class="hint">Measured size of the tumor in millimeters.</small>
+        </div>
+
+        <div class="form-group">
+            <label>Cancer Stage</label>
+            <select name="Cancer_Stage" required>
+                <option value="Localized">Localized</option>
+                <option value="Regional">Regional</option>
+                <option value="Metastatic">Metastatic</option>
+            </select>
+            <small class="hint">Extent of cancer spread.</small>
+        </div>
+
+        <div class="form-group">
+            <label>Treatment Type</label>
+            <select name="Treatment_Type" required>
+                <option value="Surgery">Surgery</option>
+                <option value="Chemotherapy">Chemotherapy</option>
+                <option value="Combination">Combination</option>
+                <option value="Radiotherapy">Radiotherapy</option>
+            </select>
+            <small class="hint">Primary treatment method used.</small>
+        </div>
+
+        <div class="form-group">
+            <label>Early Detection</label>
+            <select name="Early_Detection" required>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+            <small class="hint">Whether cancer was diagnosed early.</small>
+        </div>
+
+        <div class="form-group">
+            <label>Screening History</label>
+            <select name="Screening_History" required>
+                <option value="Regular">Regular</option>
+                <option value="Irregular">Irregular</option>
+                <option value="Never">Never</option>
+            </select>
+            <small class="hint">Frequency of cancer screening tests.</small>
+        </div>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction %}
+    <div id="result">
+        <h3>Prediction Result</h3>
+        <p><strong>Survival:</strong> {{ prediction }}</p>
+        <p><strong>Probability:</strong> {{ probability }}%</p>
+
+        {% if probability|float >= 70 %}
+            <p class="risk high">High confidence survival prediction.</p>
+        {% elif probability|float >= 50 %}
+            <p class="risk medium">Moderate confidence survival prediction.</p>
+        {% else %}
+            <p class="risk low">Low confidence survival prediction.</p>
+        {% endif %}
+
+        {% if factors %}
+        <div class="explanation">
+            <h4>Key factors influencing this prediction:</h4>
+            <ul>
+                {% for f in factors %}
+                <li>{{ f }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
